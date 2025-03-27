@@ -16,12 +16,12 @@ int main()
         scanf("%d", &b[i]);
     }
 
-    printf("\nEnter the number of files: ");
+    printf("\nEnter the number of process: ");
     scanf("%d", &nf);
     
-    printf("Enter the size of the files:-\n");
+    printf("Enter the size of the process:-\n");
     for(i = 0; i < nf; i++) {
-        printf("File %d: ", i + 1);
+        printf("process %d: ", i + 1);
         scanf("%d", &f[i]);
     }
 
@@ -49,7 +49,7 @@ int main()
     }
 
    
-    printf("\nFile No\tFile Size\tBlock No\tBlock Size\tFragmentation\n");
+    printf("\nprocess No\tprocess Size\tBlock No\tBlock Size\tFragmentation\n");
     for(i = 0; i < nf; i++) {
         if(ff[i] != -1)
             printf("%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i+1, f[i], ff[i]+1, b[ff[i]], frag[i]);

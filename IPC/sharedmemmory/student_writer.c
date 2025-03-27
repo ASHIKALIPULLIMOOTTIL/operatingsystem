@@ -27,11 +27,11 @@ int main() {
     }
 
     int *num_students = (int *)shared_memory;
-    *num_students = n;  // Store the number of students
+    *num_students = n; 
 
     Student *students = (Student *)(shared_memory + sizeof(int));
 
-    // Read student details
+    
     for (int i = 0; i < n; i++) {
         printf("Enter name of student %d: ", i + 1);
         scanf("%s", students[i].name);
@@ -41,7 +41,7 @@ int main() {
 
     printf("Student details saved in shared memory.\n");
 
-    shmdt(shared_memory);  // Detach shared memory
+    shmdt(shared_memory); 
     return 0;
 }
 

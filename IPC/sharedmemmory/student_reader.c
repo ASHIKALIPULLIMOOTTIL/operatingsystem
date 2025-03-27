@@ -9,7 +9,7 @@ typedef struct {
     int marks;
 } Student;
 
-// Function to compare marks for sorting
+
 int compare(const void *a, const void *b) {
     return ((Student *)b)->marks - ((Student *)a)->marks;
 }
@@ -32,17 +32,17 @@ int main() {
 
     Student *students = (Student *)(shared_memory + sizeof(int));
 
-    // Sort students by marks (descending)
+   
     qsort(students, n, sizeof(Student), compare);
 
-    // Display ranked results
+    
     printf("\nRanked List of Students:\n");
     for (int i = 0; i < n; i++) {
         printf("Rank %d: %s - Marks: %d\n", i + 1, students[i].name, students[i].marks);
     }
 
-    shmdt(shared_memory);  // Detach shared memory
-    shmctl(shmid, IPC_RMID, NULL); // Remove shared memory
+    shmdt(shared_memory); 
+    shmctl(shmid, IPC_RMID, NULL); 
 
     return 0;
 }

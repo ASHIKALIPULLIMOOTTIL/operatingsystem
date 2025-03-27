@@ -48,7 +48,7 @@ int main()
         }
     }
 
-    // Output
+   
     printf("\nProcess No\tProcess Size\tBlock No\tBlock Size\tFragmentation\n");
     for(i = 0; i < np; i++) {
         if(ff[i] != -1)

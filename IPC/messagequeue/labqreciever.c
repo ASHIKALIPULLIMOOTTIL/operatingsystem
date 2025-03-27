@@ -1,47 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <string.h>
 
-#define MAX_TEXT 50  // Message size
+#define MAX_TEXT 100
 
-// Define message structure
-struct my_msg {
-    long int msg_type;  // Priority of the message
-    char some_text[MAX_TEXT];
+
+struct message {
+    long msg_type; 
+    char msg_text[MAX_TEXT]; 
 };
 
 int main() {
+    key_t key;
     int msgid;
-    struct my_msg message;
+    struct message msg;
 
-    // Access the existing message queue
-    msgid = msgget((key_t)12345, 0600 | IPC_CREAT);
+   
+    key = ftok("progfile", 65);
+
+  
+    msgid = msgget(key, 0666);
     if (msgid == -1) {
-        perror("msgget");
-        return EXIT_FAILURE;
+        perror("msgget failed");
+        exit(1);
     }
 
-    printf("Waiting for messages...\n");
+    printf("Reading messages in priority order:\n");
 
-    // Receive messages based on priority (highest msg_type first)
-    for (int i = 3; i >= 1; i--) {  // Reading in reverse order (highest priority first)
-        if (msgrcv(msgid, (void *)&message, sizeof(message.some_text), i, 0) == -1) {
-            perror("msgrcv");
-            return EXIT_FAILURE;
+    
+    for (int i = 3; i >= 1; i--) {
+        if (msgrcv(msgid, &msg, sizeof(msg.msg_text), i, 0) == -1) {
+            perror("msgrcv failed");
+            exit(1);
         }
-        printf("Received: %s (Priority %ld)\n", message.some_text, message.msg_type);
+        printf("Received (Priority %ld): %s\n", msg.msg_type, msg.msg_text);
     }
 
-    // Remove message queue after processing
-    if (msgctl(msgid, IPC_RMID, NULL) == -1) {
-        perror("msgctl");
-        return EXIT_FAILURE;
-    }
+   
+    msgctl(msgid, IPC_RMID, NULL);
 
-    printf("Message queue deleted.\n");
-    return EXIT_SUCCESS;
+    return 0;
 }
 
