@@ -1,39 +1,38 @@
 #include<stdio.h>
-int main()
-{
-int bno,pno,bs[20],ps[20],i,j;
-printf("Enter no of Blocks.\n");
-scanf("%d",&bno);
-for(i=0;i<bno;i++)
-{
-printf("Enter the %dst Block size:",i);
-scanf("%d",&bs[i]);
+
+int main() {
+    int bno, pno, bs[20], ps[20], allocated[20] = {0}, i, j;
+
+    
+    printf("Enter number of Blocks: ");
+    scanf("%d", &bno);
+    for (i = 0; i < bno; i++) {
+        printf("Enter the size of Block %d: ", i + 1);
+        scanf("%d", &bs[i]);
+    }
+
+    
+    printf("Enter number of Processes: ");
+    scanf("%d", &pno);
+    for (i = 0; i < pno; i++) {
+        printf("Enter the size of Process %d: ", i + 1);
+        scanf("%d", &ps[i]);
+    }
+
+   
+    for (j = 0; j < pno; j++) {
+        for (i = 0; i < bno; i++) {
+            if (ps[j] <= bs[i] && allocated[i] == 0) {
+                printf("Process %d (size %d) allocated to Block %d (size %d)\n", j + 1, ps[j], i + 1, bs[i]);
+                allocated[i] = 1; 
+                break;
+            }
+        }
+        if (i == bno) {
+            printf("Process %d (size %d) is not allocated\n", j + 1, ps[j]);
+        }
+    }
+
+    return 0;
 }
-printf("Enter no of Process.\n");
-scanf("%d",&pno);
-for(i=0;i<pno;i++)
-{
-printf("Enter the size of %dst Process:",i);
-scanf("%d",&ps[i]);
-}
-for(i=0;i<bno;i++)
-{
-for(j=0;j<pno;j++)
-{
-if(ps[j]<=bs[i])
-{
-printf("The Process %d allocated to %d\n",j,bs[i]);
-ps[j]=10000;
-break;
-}
-}
-}
-for(j=0;j<pno;j++)
-{
-if(ps[j]!=10000)
-{
-printf("The Process %d is not allocated\n",j);
-}
-}
-return 0;
-}
+
