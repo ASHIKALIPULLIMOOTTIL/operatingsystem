@@ -1,62 +1,46 @@
-// C Program to implement Worst-Fit Algorithm
-#include <stdio.h>
-
-void main()
+#include<stdio.h>
+#define max 25
+int main()
 {
-    int bsize[20], psize[20]; 
-    int all[20], m, n, i, j;
-
-    printf("Enter the number of Blocks: ");
-    scanf("%d", &m);
-
-    printf("Enter the size of each block:\n");
-    for (i = 0; i < m; i++)
-    {
-        scanf("%d", &bsize[i]);
-    }
-
-    printf("\nEnter the number of processes: ");
-    scanf("%d", &n);
-
-    printf("Enter the size of each process:\n");
-    for (i = 0; i < n; i++)
-    {
-        scanf("%d", &psize[i]);
-        all[i] = -1; // Initialize allocation array
-    }
-
-    // Worst-Fit Allocation
-    for (i = 0; i < n; i++)
-    {
-        int worstPlace = -1;
-        for (j = 0; j < m; j++)
-        {
-            if (bsize[j] >= psize[i])
-            {
-                if (worstPlace == -1 || bsize[j] > bsize[worstPlace])
-                {
-                    worstPlace = j;
-                }
-            }
-        }
-
-        if (worstPlace != -1)
-        {
-            // Allocate process to the worst block found
-            all[i] = worstPlace;
-            bsize[worstPlace] -= psize[i]; // Reduce available block size
-        }
-    }
-
-    // Display allocation results
-    printf("\nProcess No.\tProcess Size\tBlock No.\n");
-    for (i = 0; i < n; i++)
-    {
-        printf("%d\t\t%d\t\t", i + 1, psize[i]);
-        if (all[i] != -1)
-            printf("%d\n", all[i] + 1);
-        else
-            printf("Not Allocated\n");
-    }
+int frag[max],b[max],f[max],i,j,nb,nf,temp,highest=0;
+static int bf[max],ff[max];
+printf("\nEnter the number of blocks:");
+scanf("%d",&nb);
+printf("Enter the number of files:");
+scanf("%d",&nf);
+printf("\nEnter the size of the blocks:-\n");
+for(i=1;i<=nb;i++)
+{
+printf("Block %d:",i);
+scanf("%d",&b[i]);
 }
-
+printf("Enter the size of the files:-\n");
+for(i=1;i<=nf;i++)
+{
+printf("File %d:",i);
+scanf("%d",&f[i]);
+}
+for(i=1;i<=nf;i++)
+{
+for(j=1;j<=nb;j++)
+{
+if(bf[j]!=1) //if bf[j] is not allocated
+{
+temp=b[j]-f[i];
+if(temp>=0)
+if(highest<temp)
+{
+ff[i]=j;
+highest=temp;
+}
+}
+}
+frag[i]=highest;
+bf[ff[i]]=1;
+highest=0;
+}
+printf("\nFile_no \tFile_size \tBlock_no \tBlock_size \tFragment");
+for(i=1;i<=nf;i++)
+printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d",i,f[i],ff[i],b[ff[i]],frag[i]);
+return 0;
+}

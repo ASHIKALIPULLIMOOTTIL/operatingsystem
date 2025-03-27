@@ -1,4 +1,4 @@
-// To write a C program to simulate FIFO page replacement algorithms:
+
 #include<stdio.h>
 
 void main()
